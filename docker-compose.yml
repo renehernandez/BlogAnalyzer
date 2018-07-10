@@ -1,9 +1,11 @@
 version: "3"
 services:
   web:
-    build: BlogAnalyzerWeb/.
+    build: 
+      context: BlogAnalyzerWeb/.
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "8080:80"
     depends_on:
       - elasticsearch
   elasticsearch:

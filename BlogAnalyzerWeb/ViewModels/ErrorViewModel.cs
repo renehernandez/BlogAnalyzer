@@ -1,6 +1,6 @@
 using System;
 
-namespace BlogAnalyzerWeb.Models
+namespace BlogAnalyzerWeb.ViewModels
 {
     public class ErrorViewModel
     {

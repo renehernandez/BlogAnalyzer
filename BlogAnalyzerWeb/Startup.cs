@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using BlogAnalyzerWeb.ElasticSearch;
+using BlogAnalyzerWeb.Repositories;
 
 namespace BlogAnalyzerWeb
 {
@@ -29,6 +31,9 @@ namespace BlogAnalyzerWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();           
+            services.Configure<ESOptions>(Configuration.GetSection("ElasticSearch"));
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -38,6 +43,11 @@ namespace BlogAnalyzerWeb
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ESProvider>();
+
+            services.AddScoped(typeof(PostsRepository), typeof(PostsRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
